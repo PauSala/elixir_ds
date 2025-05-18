@@ -27,7 +27,15 @@ defmodule TopologicalSort do
     case :queue.out(queue) do
       {{:value, node}, new_queue} ->
         result = [node | result]
-        {new_indegrees, new_queue2} = update_indegrees(node, graph, indegrees, new_queue)
+
+        {new_indegrees, new_queue2} =
+          update_indegrees(
+            node,
+            graph,
+            indegrees,
+            new_queue
+          )
+
         loop_queue(graph, new_indegrees, new_queue2, result)
 
       {:empty, _} ->
