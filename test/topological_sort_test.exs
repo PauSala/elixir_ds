@@ -24,7 +24,7 @@ defmodule TopologicalSortTest do
     assert TopologicalSort.topological_sort(graph) == [:a, :c, :b, :d]
   end
 
-  test "Topological Sort Cicle" do
+  test "Topological Sort cycle" do
     graph = %{
       A: [%{to: :a}],
       a: [%{to: :b}],

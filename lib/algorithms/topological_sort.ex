@@ -13,7 +13,7 @@ defmodule TopologicalSort do
   end
 
   defp do_topological_sort(graph, indegrees, queue, result) do
-    indegrees = indegrees(graph, indegrees)
+    indegrees = compute_indegrees(graph, indegrees)
 
     queue =
       Enum.reduce(graph, queue, fn {node, _}, acc ->
@@ -27,7 +27,7 @@ defmodule TopologicalSort do
     case :queue.out(queue) do
       {{:value, node}, new_queue} ->
         result = [node | result]
-        {new_indegrees, new_queue2} = indegrees(node, graph, indegrees, new_queue)
+        {new_indegrees, new_queue2} = update_indegrees(node, graph, indegrees, new_queue)
         loop_queue(graph, new_indegrees, new_queue2, result)
 
       {:empty, _} ->
@@ -35,7 +35,7 @@ defmodule TopologicalSort do
     end
   end
 
-  defp indegrees(node, graph, indegrees, queue) do
+  defp update_indegrees(node, graph, indegrees, queue) do
     edges = Map.get(graph, node, [])
 
     Enum.reduce(edges, {indegrees, queue}, fn %{to: target}, {acc_indegrees, acc_queue} ->
@@ -55,7 +55,7 @@ defmodule TopologicalSort do
     end)
   end
 
-  defp indegrees(graph, indegrees) do
+  defp compute_indegrees(graph, indegrees) do
     Enum.reduce(graph, indegrees, fn {_, edges}, acc ->
       Enum.reduce(edges, acc, fn %{to: target}, acc2 ->
         Map.update(acc2, target, 1, &(&1 + 1))
