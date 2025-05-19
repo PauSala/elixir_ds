@@ -13,11 +13,11 @@ graph = %{
 
 Benchee.run(
   %{
-    "Dijkstra path LHeap" => fn ->
-      Dijkstra.shortest_path(graph, :a, :j, LHeap)
+    "Topological sort" => fn ->
+      TopologicalSort.topological_sort(graph)
     end,
-    "Dijkstra path MinHeap" => fn ->
-      Dijkstra.shortest_path(graph, :a, :j, MinHeap)
+    "Topological sort 2" => fn ->
+      TopologicalSortTwo.topological_sort(graph)
     end
   },
   time: 30,
